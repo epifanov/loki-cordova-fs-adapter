@@ -63,11 +63,11 @@ var LokiCordovaFSAdapter = (function () {
                         var reader = new FileReader();
                         reader.onloadend = function (event) {
                             var contents = event.target.result;
-                            if (contents.length === 0) {
+                            if (contents && contents.length !== 0) {
+                                callback(contents);
+                            } else {
                                 console.warn(TAG, "couldn't find database");
                                 callback(null);
-                            } else {
-                                callback(contents);
                             }
                         };
                         reader.readAsText(file);
