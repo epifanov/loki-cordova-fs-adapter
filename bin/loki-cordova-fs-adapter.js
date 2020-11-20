@@ -60,7 +60,9 @@ var LokiCordovaFSAdapter = (function () {
                 console.log(TAG, "loading database");
                 this._getFile(dbname, function (fileEntry) {
                     fileEntry.file(function (file) {
-                        var reader = new FileReader();
+                        var fileReader = new FileReader();
+                        var zoneOriginalInstance = fileReader["__zone_symbol__originalInstance"];
+                        var reader = zoneOriginalInstance || fileReader;
                         reader.onloadend = function (event) {
                             var contents = event.target.result;
                             if (contents && contents.length !== 0) {

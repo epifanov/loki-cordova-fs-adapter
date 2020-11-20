@@ -41,7 +41,9 @@ class LokiCordovaFSAdapter {
         this._getFile(dbname,
             (fileEntry) => {
                 fileEntry.file((file) => {
-                    var reader = new FileReader();
+                    var fileReader = new FileReader();
+                    var zoneOriginalInstance = fileReader["__zone_symbol__originalInstance"];
+                    var reader = zoneOriginalInstance || fileReader;
                     reader.onloadend = (event) => {
                         var contents = event.target.result;
                         if (contents && contents.length !== 0) {
@@ -63,12 +65,12 @@ class LokiCordovaFSAdapter {
             }
         );
     }
-    
+
     deleteDatabase(dbname, callback) {
         window.resolveLocalFileSystemURL(cordova.file.dataDirectory,
             (dir) => {
                 let fileName = this.options.prefix + "__" + dbname;
-                dir.getFile(fileName, {create: true}, 
+                dir.getFile(fileName, {create: true},
                     (fileEntry) => {
                         fileEntry.remove(
                             () => {
